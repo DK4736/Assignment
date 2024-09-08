@@ -40,7 +40,7 @@ def parse_contracts(contract_json_str):
         return {'total_contracts': 0, 'total_value': 0, 'num_active_contracts': 0}
 
 
-# Parse the 'contracts' column and calculate features
+
 contract_features = df['contracts'].apply(parse_contracts)
 
 # Convert the dictionary results into separate columns
