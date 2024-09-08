@@ -1,37 +1,36 @@
 import pandas as pd
 import json
 
-# Load the dataset
-input_file = 'data.csv'  # Adjust the path as needed
+# Loading the dataset
+input_file = 'data.csv'  
 df = pd.read_csv(input_file)
 
-# Display first few rows to understand the structure of the dataset
+# Display first few rows
 print("Dataset Preview:")
 print(df.head())
 
 
-# Function to parse the JSON from 'contracts' column
 def parse_contracts(contract_json_str):
     try:
-        # Convert JSON string to dictionary/list
+   
         contract_data = json.loads(contract_json_str)
 
-        # Initialize features dictionary
+        
         features = {}
 
-        # Check if the contract_data is a list and contains dictionaries
+        
         if isinstance(contract_data, list) and all(isinstance(contract, dict) for contract in contract_data):
-            # Example feature: count of contracts
+            
             features['total_contracts'] = len(contract_data)
 
-            # Example feature: total contract value (assuming each contract has a 'value' key)
+        
             features['total_value'] = sum([contract.get('value', 0) for contract in contract_data])
 
-            # Example feature: count of active contracts (assuming each contract has a 'status' key)
+            
             features['num_active_contracts'] = sum(
                 1 for contract in contract_data if contract.get('status') == 'active')
         else:
-            # If the structure is unexpected, set default values
+        
             features = {'total_contracts': 0, 'total_value': 0, 'num_active_contracts': 0}
 
         return features
